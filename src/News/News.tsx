@@ -6,7 +6,7 @@ export type TNewsData = {
   by: string;
   descendants: number;
   id: number;
-  score: 4;
+  score: number;
   time: number;
   title: string;
   type: string;
