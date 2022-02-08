@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchData } from "../helpers/fetchData";
+import { useFetchData } from "../helpers/fetchData";
 import "./Index.scss";
 
 export type TNewsData = {
@@ -29,16 +29,24 @@ const News: React.FC<{ newsData: TNewsData }> = ({ newsData }) => {
     TAuthorData | undefined
   >();
 
-  const getAuthorDetails = React.useCallback(() => {
-    fetchData(
-      `https://hacker-news.firebaseio.com/v0/user/${newsData.by}.json`,
-      (authorData) => setAuthorDetails(authorData)
-    );
-  }, [newsData]);
+  const { isLoading, data, error } = useFetchData([
+    `https://hacker-news.firebaseio.com/v0/user/${newsData.by}.json`,
+  ]);
 
   React.useEffect(() => {
-    getAuthorDetails();
-  }, []);
+    if (data) setAuthorDetails(data);
+  }, [data]);
+
+  // const getAuthorDetails = React.useCallback(() => {
+  //   fetchData(
+  //     `https://hacker-news.firebaseio.com/v0/user/${newsData.by}.json`,
+  //     (authorData) => setAuthorDetails(authorData)
+  //   );
+  // }, [newsData]);
+
+  // React.useEffect(() => {
+  //   getAuthorDetails();
+  // }, []);
   return (
     <>
       {newsData && (
